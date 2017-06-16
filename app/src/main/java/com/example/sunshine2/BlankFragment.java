@@ -4,12 +4,19 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -72,17 +79,19 @@ public class BlankFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_blank, container, false);
-        ListView listView = (ListView)view.findViewById(R.id.listview_id);
-        String[] forecast={"Today - Sunny - 88/63","Tomorrow - Foggy - 70/40" ,
-                "Tuesday 30 degree","Weds - cloudy - 72/63","Thurs - Asteroids -75/65",
-                "Fri - Heavy Rain -65/56","Sat - HELP TRAPPED IN WEATHER STATION 60/51","Sun - Sunny -80/68"};
-        ArrayList<String> arrayList=new ArrayList<>(Arrays.asList(forecast));
-        ArrayAdapter arrayAdapter=new ArrayAdapter(getActivity(),R.layout.listview_item,R.id.list_item,arrayList);
+        View view = inflater.inflate(R.layout.fragment_blank, container, false);
+        ListView listView = (ListView) view.findViewById(R.id.listview_id);
+        String[] forecast = {"Today - Sunny - 88/63", "Tomorrow - Foggy - 70/40",
+                "Tuesday 30 degree", "Weds - cloudy - 72/63", "Thurs - Asteroids -75/65",
+                "Fri - Heavy Rain -65/56", "Sat - HELP TRAPPED IN WEATHER STATION 60/51", "Sun - Sunny -80/68"};
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(forecast));
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), R.layout.listview_item, R.id.list_item, arrayList);
         listView.setAdapter(arrayAdapter);
+
 
         return view;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
