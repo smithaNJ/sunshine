@@ -1,5 +1,6 @@
 package com.example.sunshine2;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -15,23 +16,39 @@ import java.net.URL;
  */
 
 public class FetchWeatherTask extends AsyncTask<String,Void,String> {
-    // Will contain the raw JSON response as a string.
-    String forecastJsonStr = null;
+    final  String API_KEY="6f2241a533a39c62c586a9cf148730ab";
+
 
     @Override
     protected String doInBackground(String... strings) {
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("http");
+        builder.authority("api.openweathermap.org");
+        builder.appendPath("data");
+        builder.appendPath("2.5");
+        builder.appendPath("forecast");
+       // builder.appendPath("daily");
+        builder.appendQueryParameter("id", strings[0]);
+        builder.appendQueryParameter("mode", "json");
+        builder.appendQueryParameter("units", "metric");
+        builder.appendQueryParameter("cnt","5");
+        builder.appendQueryParameter("appid", API_KEY);
+        String stringurl = builder.build().toString();
+
         // These two need to be declared outside the try/catch
         // so that they can be closed in the finally block.
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
-
+        // Will contain the raw JSON response as a string.
+        String forecastJsonStr = null;
 
 
         try {
             // Construct the URL for the OpenWeatherMap query
             // Possible parameters are avaiable at OWM's forecast API page, at
             // http://openweathermap.org/API#forecast
-            URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
+            URL url = new URL(stringurl);
 
             // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -78,7 +95,7 @@ public class FetchWeatherTask extends AsyncTask<String,Void,String> {
             }
         }
 
-
+     Log.i("FetchWeatherTask",forecastJsonStr);
         return forecastJsonStr;
     }
 
