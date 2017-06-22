@@ -3,21 +3,17 @@ package com.example.sunshine2;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-
 public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
+
     private final int NUM_DAYS=5;
     private String[] weatherDataForecast=new String[NUM_DAYS];
     private final String LOG_TAG=FetchWeatherTask.class.getSimpleName();
@@ -150,5 +146,14 @@ public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
     @Override
     protected void onPostExecute(String[] s) {
         super.onPostExecute(s);
+         if(s!=null){
+          BlankFragment.arrayAdapter.clear();
+             for (String forecast:s) {
+                 BlankFragment.arrayAdapter.add(forecast);
+             }
+
+         }
+
+
     }
 }
