@@ -7,8 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -78,7 +80,12 @@ public class BlankFragment extends Fragment {
          arrayAdapter = new ArrayAdapter(getActivity(),
                 R.layout.listview_item, R.id.list_item, arrayList);
         listView.setAdapter(arrayAdapter);
-
+         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+             @Override
+             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                 Toast.makeText(getContext(), "ListItem Clicked", Toast.LENGTH_SHORT).show();
+             }
+         });
 
         return view;
     }
