@@ -2,6 +2,7 @@ package com.example.sunshine2;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.text.format.DateFormat;
 import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +13,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import static android.R.attr.id;
+
 public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
 
     private final int NUM_DAYS=5;
@@ -49,7 +56,9 @@ public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
                 d_weatherdescription=day_weather.getJSONObject(0).getString(DESCRIPTION);
                 d_speed=(float)day_wind.getDouble(SPEED);
 
-               weatherDataForecast[i]= "TempMin="+String.valueOf(tmin)+" -- TempMax="+String.valueOf(tmax)+" -- Description="+d_weatherdescription+" -- Humidity="+String.valueOf(d_humidity)+" -- Pressure="+String.valueOf(d_pressure)+" -- Speed="+String.valueOf(d_speed);
+                String dt=getDate(i);
+
+               weatherDataForecast[i]= "Date="+dt+" -- TempMin="+String.valueOf(tmin)+" -- TempMax="+String.valueOf(tmax)+" -- Description="+d_weatherdescription+" -- Humidity="+String.valueOf(d_humidity)+" -- Pressure="+String.valueOf(d_pressure)+" -- Speed="+String.valueOf(d_speed);
                 Log.d(LOG_TAG,weatherDataForecast[i]);
 
 
@@ -61,6 +70,21 @@ public class FetchWeatherTask extends AsyncTask<String,Void,String[]> {
         }
 
         return weatherDataForecast;
+    }
+    public String getDate(int day) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        Date curr_dt,next_dt;
+        curr_dt = cal.getTime();
+        if (day == 0) {
+            return sdf.format(curr_dt);
+        } else {
+            cal.add(Calendar.DATE, day);
+             next_dt = cal.getTime();
+            return sdf.format(next_dt);
+
+        }
     }
     @Override
     protected String[] doInBackground(String... strings) {
