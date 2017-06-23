@@ -1,6 +1,7 @@
 package com.example.sunshine2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +33,7 @@ public class BlankFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
 
-     public static ArrayAdapter arrayAdapter;
+    public static ArrayAdapter arrayAdapter;
     // TODO: Rename and change types of parameters
     private String[] mParam1;
     private OnFragmentInteractionListener mListener;
@@ -77,15 +78,18 @@ public class BlankFragment extends Fragment {
                 "Tuesday 30 degree", "Weds - cloudy - 72/63", "Thurs - Asteroids -75/65",
                 "Fri - Heavy Rain -65/56", "Sat - HELP TRAPPED IN WEATHER STATION 60/51", "Sun - Sunny -80/68"};
         ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(forecast));
-         arrayAdapter = new ArrayAdapter(getActivity(),
+        arrayAdapter = new ArrayAdapter(getActivity(),
                 R.layout.listview_item, R.id.list_item, arrayList);
         listView.setAdapter(arrayAdapter);
-         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-             @Override
-             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                 Toast.makeText(getContext(), "ListItem Clicked", Toast.LENGTH_SHORT).show();
-             }
-         });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+               // Toast.makeText(getContext(), "ListItem Clicked", Toast.LENGTH_SHORT).show();
+                String value = (String)adapterView.getItemAtPosition(i);
+                Intent intent=new Intent(getContext(),DetailActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
